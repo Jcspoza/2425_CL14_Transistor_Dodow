@@ -63,7 +63,7 @@ Es muy parecido al conexionado de la CL13 sonido. de nuevo el elemento d epotenc
 
 TODO : comentar como seri aun alimentación autónoma
 
-![](C:\Users\josec\OneDrive\Documentos\GitHub\2425_CL14_Transistor_Dodow\picow_tnpn_led1w_bb.png)
+![](./picow_tnpn_led1w_bb.png)
 
 ### Libreria
 
