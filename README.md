@@ -70,7 +70,7 @@ Ningún programa necesita hw adicional
 
 ## Conexionado circuito test de transistor
 
-![](C:\Users\josec\OneDrive\Documentos\GitHub\2425_CL14_Transistor_Dodow\test_tnpn_led1w_esquemático.png)
+![](./test_tnpn_led1w_esquemático.png)
 
 ### Conexionado circuito Dodow
 
@@ -94,7 +94,7 @@ o leer el capitulo 'El transistor bipolar' del libro 'Electrónica para makers G
 
 Vamos a medir voltajes y corrientes en distintas partes del circuito, especialmente corrientes en el circuito de base-emisor y el de emisor-colector-led
 
-![](C:\Users\josec\OneDrive\Documentos\GitHub\2425_CL14_Transistor_Dodow\test_tnpn_led1w_esquemáticoAmp.png)
+![](./test_tnpn_led1w_esquemáticoAmp.png)
 
 Estos son algunos valores reales hallados por mi.  Cuidado he usado un transistor2n2222A porque tengo mas de estos !!! De la hoja de datos
 
