@@ -58,13 +58,13 @@ Del **transistor BJC**:
 
 Ningún programa necesita hw adicional
 
-| Programa                                         | Lenguaje | Objetivo de Aprendizaje         |
-| ------------------------------------------------ | -------- | ------------------------------- |
-| [R2425_ExPWM_indutty.py](R2425_ExPWM_indutty.py) | uPy      | Test básico de PWM y conexiones |
-|                                                  |          |                                 |
-|                                                  |          |                                 |
-|                                                  |          |                                 |
-|                                                  |          |                                 |
+| Programa                                                 | Lenguaje | Objetivo de Aprendizaje                 |
+| -------------------------------------------------------- | -------- | --------------------------------------- |
+| [R2425_ExPWM_indutty.py](R2425_ExPWM_indutty.py)         | uPy      | Test básico de PWM y conexiones         |
+| [R2425_Dodow1respL1ms1_0.py](R2425_Dodow1respL1ms1_0.py) | uPy      | 1ciclo de respiración Lineal , paso 1ms |
+|                                                          |          |                                         |
+|                                                          |          |                                         |
+|                                                          |          |                                         |
 
 ### 
 
@@ -112,23 +112,58 @@ APRENDIZAJES:
 
 ## 3.Proyecto Dodow - ayuda para el sueño
 
+### Planteamiento y seguimiento
+
 Una vez que hemos resuelto el problema del HW : 
 
     Ya sabemos como **dar mucha corriente a un Led azul de potencia** que puede llegar a consumir unos 300mA ( en realidad consume unos 120 mA), 
 
 hay que ver como abordar el proyecto Sw de micropython. Veo estas partes 
 
-1. Sabemos como cambiar la luz del led usando el ciclo de trabajo de un pulso PWM
-   
-   1. Necesitamos un programa de test
+- [x] A-Sabemos como **cambiar la luz del led usando el ciclo de trabajo de un pulso PWM**
+  
+  Necesitamos un programa de test 
 
-2. **Ciclo de respiración** = subir la luz del del y luego bajar = > HACER
-   
-   1. Probemos con 10 respiraciones por minuto
-   2. Subida y bajada lineal + un reposo : 3 + 6 +1 por ejemplo x 2 posibilidades
-      1. por cambio cada 1msegundo
-      2. por numero fijo de pasos
+- [ ] **B. Ciclo de respiración Lineal** = subir la luz del LED y luego bajarla
+  
+  Probemos con 10 respiraciones por minuto  & Subida y bajada lineal + un reposo : 3 + 6 +1 por ejemplo. Tenemos 2 posibilidades:
+  
+  - [ ] por cambio cada **1msegundo**
+  
+  - [ ] por **numero fijo de pasos**
+  
+  - [ ] ¿Cuál es mejor ?
 
-3. **Secuencia de respiraciones** => HACER
-   
-   1. dos bucles for
+- [ ] C.  **Problema de percepción**: El ojo humano percibe de forma logarítmica un cambio lineal -> hay que usar una función exponencial ( función gamma) contraria a la función logarítmica. 
+  
+  Ver [PWM Exponential LED Fading on Arduino (or other platforms) | Diarmuid.ie](https://diarmuid.ie/blog/pwm-exponential-led-fading-on-arduino-or-other-platforms/)
+  
+  La solucion mas sencilla la he encontrado aqui
+  
+  [The problem with driving LEDs with PWM &#8211; codeinsecurity](https://codeinsecurity.wordpress.com/2023/07/17/the-problem-with-driving-leds-with-pwm/)
+  
+  - [ ] 1 respiración con hecha por pasos de 1ms Y función gamma
+  
+  - [ ] 1 respiración hecha con N pasos Y función gamma
+
+- [ ] D. **Secuencia de respiraciones** = dos bucles for
+  
+  - [ ] Respiración basica lineal
+  
+  - [ ] Respiracion 1ms x paso y funcion gamma
+  
+  - [ ] Respiracion N pasos y funcion gamma
+  
+  - [ ] ¿ cual es mejor?
+
+-----------------------
+
+### 3.A. Test del HW : cambiar la luz del led usando el ciclo de trabajo de un pulso PWM
+
+[R2425_ExPWM_indutty.py](R2425_ExPWM_indutty.py)
+
+
+
+
+
+R2425_Dodow1respL1ms1_0.py
