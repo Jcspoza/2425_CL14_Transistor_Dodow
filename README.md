@@ -32,32 +32,47 @@ Como se ve, el Dodow comercial usa un luz azul pulsante. Vamos a necesitar un le
 
 ### Tutoriales resumen
 
-Del Dodow do it yourself hay tutoriales, pero para leguaje arduino
+**PWM y led**
 
-[DIY Dodow Clone Arduino Sleep Meditation Machine : 4 Steps (with Pictures) - Instructables](https://www.instructables.com/DIY-Dodow-Clone-Arduino-Sleep-Meditation-Machine/)
+[Fade In and Out - Learning MicroPython](https://dmccreary.github.io/learning-micropython/basics/04-fade-in-and-out/)
 
-[GitHub - dshiffman/dodowDIY: An ATTiny85 implementation of the well known sleep aid. Includes circuit, software and 3d printed case design](https://github.com/dshiffman/dodowDIY/tree/main)
+Del **Dodow do it yourself**  hay tutoriales, pero para leguaje arduino
 
-De **Sunfounder** tutorial del transistor : 
+-     [DIY Dodow Clone Arduino Sleep Meditation Machine : 4 Steps (with Pictures) - Instructables](https://www.instructables.com/DIY-Dodow-Clone-Arduino-Sleep-Meditation-Machine/)
+
+-     [GitHub - dshiffman/dodowDIY: An ATTiny85 implementation of the well known sleep aid. Includes circuit, software and 3d printed case design](https://github.com/dshiffman/dodowDIY/tree/main)
+
+Del **transistor BJC**: 
+
+- un buen tutorial [Transistor bipolar BJT y Arduino](https://programarfacil.com/blog/arduino-blog/transistor-bipolar-bjt-npn/)
+
+- Del libro Electrónica para makers Guía completa' de Paolo Aliverti, leer el capitulo 'El transistor bipolar'
+
+- El tutorial de sunfounder sobre transistores NO es muy bueno
+  
+  [Transistor — SunFounder Kepler Kit for Raspberry Pi Pico W 1.0 documentation](https://docs.sunfounder.com/projects/kepler-kit/en/latest/component/component_transistor.html)
 
 ----
 
 ### Tabla resumen de programas
 
-| Programa | Lenguaje | Objetivo de Aprendizaje | Hw adicional |
-| -------- | -------- | ----------------------- | ------------ |
-|          |          |                         |              |
-|          |          |                         |              |
-|          |          |                         |              |
-|          |          |                         |              |
-|          |          |                         |              |
-|          |          |                         |              |
-|          |          |                         |              |
-|          |          |                         |              |
-|          |          |                         |              |
-|          |          |                         |              |
+Ningún programa necesita hw adicional
 
-### Conexionado
+| Programa                                         | Lenguaje | Objetivo de Aprendizaje         |
+| ------------------------------------------------ | -------- | ------------------------------- |
+| [R2425_ExPWM_indutty.py](R2425_ExPWM_indutty.py) | uPy      | Test básico de PWM y conexiones |
+|                                                  |          |                                 |
+|                                                  |          |                                 |
+|                                                  |          |                                 |
+|                                                  |          |                                 |
+
+### 
+
+## Conexionado circuito test de transistor
+
+![](C:\Users\josec\OneDrive\Documentos\GitHub\2425_CL14_Transistor_Dodow\test_tnpn_led1w_esquemático.png)
+
+### Conexionado circuito Dodow
 
 Es muy parecido al conexionado de la CL13 sonido. de nuevo el elemento d epotencia se alimenta a +5vol del usb
 
@@ -65,7 +80,7 @@ TODO : comentar como seri aun alimentación autónoma
 
 ![](./picow_tnpn_led1w_bb.png)
 
-### Libreria
+### Librerias
 
 No usaremos ninguna libreria.
 
@@ -77,14 +92,43 @@ Un buen tutorial para entender el uso de transistores BJC en modo corte-saturaci
 
 o leer el capitulo 'El transistor bipolar' del libro 'Electrónica para makers Guía completa' de Paolo Aliverti
 
-El tutorial de sunfounder sobre transistores NO es muy bueno
+Vamos a medir voltajes y corrientes en distintas partes del circuito, especialmente corrientes en el circuito de base-emisor y el de emisor-colector-led
 
-[Transistor &mdash; SunFounder Kepler Kit for Raspberry Pi Pico W 1.0 documentation](https://docs.sunfounder.com/projects/kepler-kit/en/latest/component/component_transistor.html)
+![](C:\Users\josec\OneDrive\Documentos\GitHub\2425_CL14_Transistor_Dodow\test_tnpn_led1w_esquemáticoAmp.png)
 
-## Preguntas sobre la Clase 14 - 10 minutos
+Estos son algunos valores reales hallados por mi.  Cuidado he usado un transistor2n2222A porque tengo mas de estos !!! De la hoja de datos
 
-Sección para que los alumnos pregunten sus dudas durante la clase
+Vbe = 0.6 a 1.2 volt
 
----
+Vce = 0.3 a 1.0 volt
 
-## TO DO :
+==> Haz el montaje y mide los valores
+
+APRENDIZAJES:
+
+* Cuando necesitamos controlar dispositivos que consumen > 20mA este montaje de transisitor en corte-saturación es muy util
+
+* Se pueden controlar con la Pico ( lógica a 3,3 volt) dispositivos con mucho mas voltaje, usando este montaje de transistor BJC en corte - saturación
+
+## 3.Proyecto Dodow - ayuda para el sueño
+
+Una vez que hemos resuelto el problema del HW : 
+
+    Ya sabemos como **dar mucha corriente a un Led azul de potencia** que puede llegar a consumir unos 300mA ( en realidad consume unos 120 mA), 
+
+hay que ver como abordar el proyecto Sw de micropython. Veo estas partes 
+
+1. Sabemos como cambiar la luz del led usando el ciclo de trabajo de un pulso PWM
+   
+   1. Necesitamos un programa de test
+
+2. **Ciclo de respiración** = subir la luz del del y luego bajar = > HACER
+   
+   1. Probemos con 10 respiraciones por minuto
+   2. Subida y bajada lineal + un reposo : 3 + 6 +1 por ejemplo x 2 posibilidades
+      1. por cambio cada 1msegundo
+      2. por numero fijo de pasos
+
+3. **Secuencia de respiraciones** => HACER
+   
+   1. dos bucles for
