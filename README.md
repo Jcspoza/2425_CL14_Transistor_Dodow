@@ -58,13 +58,13 @@ Del **transistor BJC**:
 
 Ningún programa necesita hw adicional
 
-| Programa                                                 | Lenguaje | Objetivo de Aprendizaje                 |
-| -------------------------------------------------------- | -------- | --------------------------------------- |
-| [R2425_ExPWM_indutty.py](R2425_ExPWM_indutty.py)         | uPy      | Test básico de PWM y conexiones         |
-| [R2425_Dodow1respL1ms1_0.py](R2425_Dodow1respL1ms1_0.py) | uPy      | 1ciclo de respiración Lineal , paso 1ms |
-|                                                          |          |                                         |
-|                                                          |          |                                         |
-|                                                          |          |                                         |
+| Programa                                                 | Lenguaje | Objetivo de Aprendizaje                                                        |
+| -------------------------------------------------------- | -------- | ------------------------------------------------------------------------------ |
+| [R2425_ExPWM_indutty.py](R2425_ExPWM_indutty.py)         | uPy      | Test básico de PWM y conexiones                                                |
+| [R2425_Dodow1respL1ms1_0.py](R2425_Dodow1respL1ms1_0.py) | uPy      | 1ciclo de respiración Lineal , paso 1ms                                        |
+| [FuncRespL1ms2_0.py](FuncRespL1ms2_0.py)                 | uPy      | 1ciclo de respiración Lineal , paso 1ms & puesta en modo función para importar |
+| [R2425_DodowIR2_0.py](R2425_DodowIR2_0.py)               | uPy      | Programa dodow completo v2.0 usa funciones de respirar (IR = importa respirar) |
+|                                                          |          |                                                                                |
 
 ### 
 
@@ -122,13 +122,13 @@ hay que ver como abordar el proyecto Sw de micropython. Veo estas partes
 
 - [x] A-Sabemos como **cambiar la luz del led usando el ciclo de trabajo de un pulso PWM**
   
-  Necesitamos un programa de test 
+  - [x] Necesitamos un programa de test 
 
 - [ ] **B. Ciclo de respiración Lineal** = subir la luz del LED y luego bajarla
   
   Probemos con 10 respiraciones por minuto  & Subida y bajada lineal + un reposo : 3 + 6 +1 por ejemplo. Tenemos 2 posibilidades:
   
-  - [ ] por cambio cada **1msegundo**
+  - [x] por cambio cada **1msegundo**
   
   - [ ] por **numero fijo de pasos**
   
@@ -148,7 +148,7 @@ hay que ver como abordar el proyecto Sw de micropython. Veo estas partes
 
 - [ ] D. **Secuencia de respiraciones** = dos bucles for
   
-  - [ ] Respiración basica lineal
+  - [x] Respiración basica lineal
   
   - [ ] Respiracion 1ms x paso y funcion gamma
   
@@ -162,8 +162,84 @@ hay que ver como abordar el proyecto Sw de micropython. Veo estas partes
 
 [R2425_ExPWM_indutty.py](R2425_ExPWM_indutty.py)
 
+### 3.B. Ciclo de respiración Lineal = subir la luz del LED y luego bajarla
+
+#### 1 respiración- Un cambio por cada 1ms - programa en bruto
+
+Inspiración : 
+
+    Calculamos el tiempo de subida en ms => obtenemos el incremento de pwm en cada ms
+
+    Bucle for que incrementa el ciclo de trabajo del led cada 1ms
+
+Expiracion: idem
+
+Reposo : hemos definido un cliclo de respiracion 3-6-1, con 1 decimo en reposo al final
+
+Ver [R2425_Dodow1respL1ms1_0.py](R2425_Dodow1respL1ms1_0.py)
+
+Si vemos el rastro dejado por la función en modo debug=True, los extremos no estan bien pegados, porque los bucles for no acaban en maxpwm ni en minpwm respectivamente, pero a 'ojo' no se ve del todo mal
+
+```
+Inicio duty_u16 = 500
+Inspira incre x ms 36 x dura ms 1800
+Fin up duty_u16 = 65300 Ultimo paso= 1800
+Expira decre x ms 18 x dura ms 3600
+Fin down duty_u16 = 700 Ultimo paso= 3600
+Reposo dura ms 600
+Fin resp duty_u16 = 500
+```
+
+#### Una respiración- Un cambio por cada 1ms - como función
+
+<u>Objetivo : Añadir modularidad</u>
+
+Si organizamos el programa de forma **que sea importable** la función de respirar, cuando hagamos el dodow completo solo tendremos que importar la función de respirar, y podremos probar distintas posibilidades de hacer una respiración
+
+**¿Como?** 
+
+Colocamos toda la parte 'main' del programa de 1 respiración en un if especial
+
+```
+if (__name__ == '__main__'):
+    EXT_LED_PIN = 15
+    DEBUG = True
+
+    pwmLed = PWM(Pin(EXT_LED_PIN))
+    pwmLed.freq(1000)
+    pwmLed.duty_u16(MINPWM)
+.......
+```
+
+Asi conseguimos que ese codigo SOLO se ejecute si este fichero es el progrma principal 
+
+ver [explicación sencilla](https://ellibrodepython.com/modulos-python#m%C3%B3dulos-y-funci%C3%B3n-main) / explicación mas compleja [__main__ — Entorno de código de nivel máximo &#8212; documentación de Python - 3.10.17](https://docs.python.org/es/3.10/library/__main__.html)
 
 
 
+**Resultado**
 
-R2425_Dodow1respL1ms1_0.py
+[FuncRespL1ms2_0.py](FuncRespL1ms2_0.py) ==> debe subirse la memoria de la PICOW
+
+También hemos añadido una salida de la función de respirar que indique que tipo de ciclo de respiración utiliza `return 'Respiracion Lineal 3_6_1'`
+
+### D. **Probamos ->Secuencia de respiraciones** con Función respira L1ms
+
+Aunque el pegado no sea perfecto y tengamos un problema de percepción de la luminosidad, podemos probar una versión de Dodow que use las funciones de respirar
+
+[R2425_DodowIR2_0.py](R2425_DodowIR2_0.py)
+
+
+
+La importación la hemos hecho de forma que solo habra que cambiar 1 linea en todo el progrma dodowIR :
+
+```
+from FuncRespL1ms2_0 import respiraL1ms as respiraLed # immporta respiraLed
+....
+
+# el uso NO hay que cambiarlo
+
+TipResp = respiraLed(pwmLed, durarepsactualms)
+```
+
+--------------------------------- FIN provisional -------------------------------
