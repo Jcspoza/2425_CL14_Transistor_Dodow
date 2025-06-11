@@ -58,15 +58,16 @@ Del **transistor BJC**:
 
 Ningún programa necesita hw adicional
 
-| Programa                                                 | Lenguaje | Objetivo de Aprendizaje                                                        |
-| -------------------------------------------------------- | -------- | ------------------------------------------------------------------------------ |
-| [R2425_ExPWM_indutty.py](R2425_ExPWM_indutty.py)         | uPy      | Test básico de PWM y conexiones                                                |
-| [R2425_Dodow1respL1ms1_0.py](R2425_Dodow1respL1ms1_0.py) | uPy      | 1ciclo de respiración Lineal , paso 1ms                                        |
-| [FuncRespL1ms2_0.py](FuncRespL1ms2_0.py)                 | uPy      | 1ciclo de respiración Lineal , paso 1ms & puesta en modo función para importar |
-| [R2425_DodowIR2_0.py](R2425_DodowIR2_0.py)               | uPy      | Programa dodow completo v2.0 usa funciones de respirar (IR = importa respirar) |
-|                                                          |          |                                                                                |
-
-### 
+| Programa                                                 | Lenguaje | Objetivo de Aprendizaje                                                                            |
+| -------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------- |
+| [R2425_ExPWM_indutty.py](R2425_ExPWM_indutty.py)         | uPy      | Test básico de PWM y conexiones                                                                    |
+| [R2425_Dodow1respL1ms1_0.py](R2425_Dodow1respL1ms1_0.py) | uPy      | 1ciclo de respiración Lineal , paso 1ms                                                            |
+| [FuncRespL1ms2_0.py](FuncRespL1ms2_0.py)                 | uPy      | 1ciclo de respiración Lineal , paso 1ms & puesta en modo función para importar                     |
+| [R2425_DodowIR2_0.py](R2425_DodowIR2_0.py)               | uPy      | Programa dodow completo v2.0 usa funciones de respirar , IR = importa respirar -> lineal 1ms       |
+| [FuncRespLPAS2_0.py](FuncRespLPas2_0.py)                 |          | 1ciclo de respiración Lineal , 500 pasos & puesta en modo función para importar                    |
+| [FuncRespLG1ms2_0.py](FuncRespLG1ms2_0.py)               |          | 1ciclo de respiración Lineal , paso 1ms + Corrección Gamma & puesta en modo función para importar  |
+| [FuncRespLGPAS2_0.py](FuncRespLGPas2_0.py)               |          | 1ciclo de respiración Lineal , 500 pasos + correccion Gamma& puesta en modo función para importar  |
+| [R2425_DodowIR2_p.py](R2425_DodowIR2_p.py)               |          | Programa dodow completo v2.0 usa funciones de respirar , IR = importa respirar -> lineal 500 pasos |
 
 ## Conexionado circuito test de transistor
 
@@ -106,7 +107,7 @@ Vce = 0.3 a 1.0 volt
 
 APRENDIZAJES:
 
-* Cuando necesitamos controlar dispositivos que consumen > 20mA este montaje de transisitor en corte-saturación es muy util
+* Cuando necesitamos controlar dispositivos que consumen > 20mA este montaje de transisitor en corte-saturación es muy útil
 
 * Se pueden controlar con la Pico ( lógica a 3,3 volt) dispositivos con mucho mas voltaje, usando este montaje de transistor BJC en corte - saturación
 
@@ -130,7 +131,7 @@ hay que ver como abordar el proyecto Sw de micropython. Veo estas partes
   
   - [x] por cambio cada **1msegundo**
   
-  - [ ] por **numero fijo de pasos**
+  - [x] por **numero fijo de pasos**
   
   - [ ] ¿Cuál es mejor ?
 
@@ -138,17 +139,19 @@ hay que ver como abordar el proyecto Sw de micropython. Veo estas partes
   
   Ver [PWM Exponential LED Fading on Arduino (or other platforms) | Diarmuid.ie](https://diarmuid.ie/blog/pwm-exponential-led-fading-on-arduino-or-other-platforms/)
   
-  La solucion mas sencilla la he encontrado aqui
+  La solución mas sencilla la he encontrado aqui
   
   [The problem with driving LEDs with PWM &#8211; codeinsecurity](https://codeinsecurity.wordpress.com/2023/07/17/the-problem-with-driving-leds-with-pwm/)
   
-  - [ ] 1 respiración con hecha por pasos de 1ms Y función gamma
+  - [x] 1 respiración con hecha por pasos de 1ms Y función gamma
   
-  - [ ] 1 respiración hecha con N pasos Y función gamma
+  - [x] 1 respiración hecha con N pasos Y función gamma
 
 - [ ] D. **Secuencia de respiraciones** = dos bucles for
   
-  - [x] Respiración basica lineal
+  - [x] Respiración basica lineal 1ms
+  
+  - [x] Respiración básica 500 pasos
   
   - [ ] Respiracion 1ms x paso y funcion gamma
   
@@ -215,8 +218,6 @@ Asi conseguimos que ese codigo SOLO se ejecute si este fichero es el progrma pri
 
 ver [explicación sencilla](https://ellibrodepython.com/modulos-python#m%C3%B3dulos-y-funci%C3%B3n-main) / explicación mas compleja [__main__ — Entorno de código de nivel máximo &#8212; documentación de Python - 3.10.17](https://docs.python.org/es/3.10/library/__main__.html)
 
-
-
 **Resultado**
 
 [FuncRespL1ms2_0.py](FuncRespL1ms2_0.py) ==> debe subirse la memoria de la PICOW
@@ -229,9 +230,7 @@ Aunque el pegado no sea perfecto y tengamos un problema de percepción de la lum
 
 [R2425_DodowIR2_0.py](R2425_DodowIR2_0.py)
 
-
-
-La importación la hemos hecho de forma que solo habra que cambiar 1 linea en todo el progrma dodowIR :
+La importación la hemos hecho de forma que solo habrá que cambiar 1 linea en todo el programa dodowIR :
 
 ```
 from FuncRespL1ms2_0 import respiraL1ms as respiraLed # immporta respiraLed
