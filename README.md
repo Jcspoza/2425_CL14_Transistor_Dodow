@@ -242,3 +242,5 @@ TipResp = respiraLed(pwmLed, durarepsactualms)
 ```
 
 --------------------------------- FIN provisional -------------------------------
+
+todo : incluir en funciones de respiración secuencia de inspira-expira-reposo como tupla
