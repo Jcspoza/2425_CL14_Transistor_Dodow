@@ -18,7 +18,7 @@ Para acabar el curso un pequeño proyecto que se puede continuar en vacaciones:
 
 Vamos a hacer un prototipo de un aparato que ayuda a conciliar el sueño , 'Dodow' : se trata de sincronizar la respiración con la luz de un led pulsante. La idea es ir bajando de ritmo de la pulsación de luz desde 11 ciclos por minuto  (subir brillo = inspiración-> bajar brillo = expiracion)  a 6 ciclos por minuto. El aparato comercial tiene dos secuencias :
 
-- Larga 20 minutos desde las 11 respiraciones pro minuto a las 6 respiraciones
+- Larga 20 minutos desde las 11 respiraciones por minuto a las 6 respiraciones por minuto
 
 - Corta de 8 minutos también desde 11 a 6 respiraciones por minuto
 
@@ -26,7 +26,9 @@ Vamos a hacer un prototipo de un aparato que ayuda a conciliar el sueño , 'Dodo
 
 [Dodow : découvrez comment il va vous endormir. - YouTube](https://youtu.be/kY5L8FCDVtc)
 
-Como se ve, el Dodow comercial usa un luz azul pulsante. Vamos a necesitar un led azul de potencia de 1w . Para controlarlo usaremos PWM cambando esta vez el ciclo de trabajo (No la frecuencia), pero necesitamos bastantes miliamperios (+ de 100 mA ) con lo que usaremso un circuito de transistor
+Como se ve, el Dodow comercial usa un luz azul pulsante. Vamos a necesitar un led azul de potencia de 1w . Para controlarlo usaremos PWM cambiando esta vez el ciclo de trabajo (no la frecuencia, como en la practica con sonido), pero necesitamos bastantes miliamperios (+ de 100 mA ) con lo que usaremos un circuito de transistor BJC.
+
+Para entender de una vez el circuito de transistor, **haremos un montaje HW aparte 'clonando' el montaje con la PICO** , para a si poder hacer medidas y 'jugar' sin problemas .
 
 ## 1. Tutoriales, Programas que vamos a usar y conexionado
 
@@ -56,7 +58,7 @@ Del **transistor BJC**:
 
 ### Tabla resumen de programas
 
-Ningún programa necesita hw adicional
+Todos los programas usan el mismo hw adicional : transistor NPN S8050 + led azul + resistencia 1k, ver abajo
 
 | Programa                                                 | Lenguaje | Objetivo de Aprendizaje                                                                            |
 | -------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------- |
@@ -64,10 +66,10 @@ Ningún programa necesita hw adicional
 | [R2425_Dodow1respL1ms1_0.py](R2425_Dodow1respL1ms1_0.py) | uPy      | 1ciclo de respiración Lineal , paso 1ms                                                            |
 | [FuncRespL1ms2_0.py](FuncRespL1ms2_0.py)                 | uPy      | 1ciclo de respiración Lineal , paso 1ms & puesta en modo función para importar                     |
 | [R2425_DodowIR2_0.py](R2425_DodowIR2_0.py)               | uPy      | Programa dodow completo v2.0 usa funciones de respirar , IR = importa respirar -> lineal 1ms       |
-| [FuncRespLPAS2_0.py](FuncRespLPas2_0.py)                 |          | 1ciclo de respiración Lineal , 500 pasos & puesta en modo función para importar                    |
-| [FuncRespLG1ms2_0.py](FuncRespLG1ms2_0.py)               |          | 1ciclo de respiración Lineal , paso 1ms + Corrección Gamma & puesta en modo función para importar  |
-| [FuncRespLGPAS2_0.py](FuncRespLGPas2_0.py)               |          | 1ciclo de respiración Lineal , 500 pasos + correccion Gamma& puesta en modo función para importar  |
-| [R2425_DodowIR2_p.py](R2425_DodowIR2_p.py)               |          | Programa dodow completo v2.0 usa funciones de respirar , IR = importa respirar -> lineal 500 pasos |
+| [FuncRespLPAS2_0.py](FuncRespLPas2_0.py)                 | uPy      | 1ciclo de respiración Lineal , 500 pasos & puesta en modo función para importar                    |
+| [FuncRespLG1ms2_0.py](FuncRespLG1ms2_0.py)               | uPy      | 1ciclo de respiración Lineal , paso 1ms + Corrección Gamma & puesta en modo función para importar  |
+| [FuncRespLGPAS2_0.py](FuncRespLGPas2_0.py)               | uPy      | 1ciclo de respiración Lineal , 500 pasos + correccion Gamma& puesta en modo función para importar  |
+| [R2425_DodowIR2_p.py](R2425_DodowIR2_p.py)               | uPy      | Programa dodow completo v2.0 usa funciones de respirar , IR = importa respirar -> lineal 500 pasos |
 
 ## Conexionado circuito test de transistor
 
@@ -75,15 +77,17 @@ Ningún programa necesita hw adicional
 
 ### Conexionado circuito Dodow
 
-Es muy parecido al conexionado de la CL13 sonido. de nuevo el elemento d epotencia se alimenta a +5vol del usb
+Es muy parecido al conexionado de la CL13 sonido. de nuevo el elemento de potencia se alimenta a +5vol del usb
 
-TODO : comentar como seri aun alimentación autónoma
+TODO : comentar como seria un montaje con alimentación autónoma
 
 ![](./picow_tnpn_led1w_bb.png)
 
-### Librerias
+### Librerías
 
 No usaremos ninguna libreria.
+
+----------------------
 
 ## 2. Entender el circuito de transistor
 
@@ -97,13 +101,13 @@ Vamos a medir voltajes y corrientes en distintas partes del circuito, especialme
 
 ![](./test_tnpn_led1w_esquemáticoAmp.png)
 
-Estos son algunos valores reales hallados por mi.  Cuidado he usado un transistor2n2222A porque tengo mas de estos !!! De la hoja de datos
+Estos son algunos valores reales medidos por mi en casa. Lo repetiremos en la clase.  Cuidado he usado un transistor2n2222A porque tengo mas de estos !!! De la hoja de datos
 
 Vbe = 0.6 a 1.2 volt
 
 Vce = 0.3 a 1.0 volt
 
-==> Haz el montaje y mide los valores
+==> Hacemos el montaje y medimos los valores
 
 APRENDIZAJES:
 
@@ -115,11 +119,11 @@ APRENDIZAJES:
 
 ### Planteamiento y seguimiento
 
-Una vez que hemos resuelto el problema del HW : 
+Hemos resuelto ya el problema del HW : 
 
     Ya sabemos como **dar mucha corriente a un Led azul de potencia** que puede llegar a consumir unos 300mA ( en realidad consume unos 120 mA), 
 
-hay que ver como abordar el proyecto Sw de micropython. Veo estas partes 
+hay que ver como abordar el proyecto SW en micropython. Veo estas partes para le plan de trabajo:
 
 - [x] A-Sabemos como **cambiar la luz del led usando el ciclo de trabajo de un pulso PWM**
   
@@ -131,11 +135,11 @@ hay que ver como abordar el proyecto Sw de micropython. Veo estas partes
   
   - [x] por cambio cada **1msegundo**
   
-  - [x] por **numero fijo de pasos**
+  - [x] por **numero fijo de pasos en la subida y en la bajada**
   
   - [ ] ¿Cuál es mejor ?
 
-- [ ] C.  **Problema de percepción**: El ojo humano percibe de forma logarítmica un cambio lineal -> hay que usar una función exponencial ( función gamma) contraria a la función logarítmica. 
+- [ ] C.  **Problema de percepción**: El ojo humano percibe de forma logarítmica un cambio lineal -> hay que usar una función exponencial (función gamma) contraria a la función logarítmica. 
   
   Ver [PWM Exponential LED Fading on Arduino (or other platforms) | Diarmuid.ie](https://diarmuid.ie/blog/pwm-exponential-led-fading-on-arduino-or-other-platforms/)
   
@@ -143,11 +147,13 @@ hay que ver como abordar el proyecto Sw de micropython. Veo estas partes
   
   [The problem with driving LEDs with PWM &#8211; codeinsecurity](https://codeinsecurity.wordpress.com/2023/07/17/the-problem-with-driving-leds-with-pwm/)
   
-  - [x] 1 respiración con hecha por pasos de 1ms Y función gamma
+  - [x] 1 respiración con hecha por pasos de 1ms **y función gamma**
   
-  - [x] 1 respiración hecha con N pasos Y función gamma
+  - [x] 1 respiración hecha con N pasos **y función gamma**
 
 - [ ] D. **Secuencia de respiraciones** = dos bucles for
+  
+  **¿Como?** si la secuencia es por ejemplo 11 rxm durante 2 minutos = 22 respiraciones , y luego 10 rxp durante 3 minutos=30 respiraciones, se puede hacer con dos bucles for , el interior numero de respiraciones y el exterior cambia el ritmo de rxp
   
   - [x] Respiración basica lineal 1ms
   
@@ -167,7 +173,7 @@ hay que ver como abordar el proyecto Sw de micropython. Veo estas partes
 
 ### 3.B. Ciclo de respiración Lineal = subir la luz del LED y luego bajarla
 
-#### 1 respiración- Un cambio por cada 1ms - programa en bruto
+#### 1 - respiración- Un cambio por cada 1ms - programa en bruto
 
 Inspiración : 
 
@@ -240,6 +246,20 @@ from FuncRespL1ms2_0 import respiraL1ms as respiraLed # immporta respiraLed
 
 TipResp = respiraLed(pwmLed, durarepsactualms)
 ```
+
+### ¿Hasta donde he llegado?
+
+ver plan con tick en verde
+
+HECHO:
+
+- 1 ciclo lineal paso 1ms , modo funcion + integrar en progrma dodow
+
+- 1ciclo lineal con numero fijo de pasos, modo función + integrar en programa dodow
+
+- 1 ciclo lineal paso 1ms , modo funcion & correcion gamma
+
+- 1ciclo lineal con numero fijo de pasos, modo función & correcion gama
 
 --------------------------------- FIN provisional -------------------------------
 
